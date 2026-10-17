@@ -213,7 +213,6 @@
             <div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-emerald-500/20 rounded-full blur-[120px] pointer-events-none"></div>
             <div class="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-purple-500/20 rounded-full blur-[120px] pointer-events-none"></div>
 
-            <!-- Lebar header disesuaikan agar pas (max-w-xl) -->
             <header class="text-center mb-6 mt-2 relative z-10 max-w-xl mx-auto">
                 <div class="inline-flex items-center gap-2 bg-slate-800/80 backdrop-blur border border-slate-600 px-4 py-2 rounded-full text-emerald-400 font-bold text-xs tracking-widest mb-4 shadow-lg shadow-emerald-900/20 uppercase">
                     <i class="fa-solid fa-gamepad animate-pulse"></i> Game Developed By Misbahul Munir
@@ -226,7 +225,6 @@
                 </p>
             </header>
 
-            <!-- Lebar card utama disesuaikan jauh lebih ramping (max-w-2xl) -->
             <div class="glass-card rounded-3xl p-5 sm:p-6 max-w-2xl mx-auto w-full mb-8 relative z-10">
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
@@ -373,7 +371,6 @@
                 <div class="relative w-full aspect-square bg-slate-900/80 rounded-2xl border border-slate-700/50 shadow-2xl overflow-hidden" id="boardWrapper">
                     <div id="boardTilesGrid" class="absolute inset-0 grid grid-cols-10 grid-rows-10 w-full h-full p-1 sm:p-1.5 gap-0.5 sm:gap-1"></div>
 
-                    <!-- viewBox 0 0 1000 1000, preserveAspectRatio="none" memastikan SVG menempel sempurna pada grid -->
                     <svg id="svgOverlay" class="absolute inset-0 w-full h-full pointer-events-none z-20" viewBox="0 0 1000 1000" preserveAspectRatio="none">
                         <defs>
                             <linearGradient id="gradLadder" x1="0%" y1="0%" x2="0%" y2="100%">
@@ -644,7 +641,10 @@ Suku bangsa yang terkenal dengan rumah adat Gadang adalah suku?,Jawa,Sunda,Minan
 Sungai terpanjang di pulau Jawa adalah sungai?,Sungai Musi,Sungai Kapuas,Bengawan Solo,Sungai Brantas,Bengawan Solo`
         };
 
-        const LADDERS = { 3: 21, 8: 30, 28: 84, 58: 77, 75: 86, 80: 100 };
+        // PERUBAHAN DATA TANGGA SESUAI PERMINTAAN
+        // Tangga 80 ke 100 dihilangkan
+        // Tangga 75 ke 86 diubah menjadi 75 ke 96
+        const LADDERS = { 3: 21, 8: 30, 28: 84, 58: 77, 75: 96 };
         const SNAKES = { 17: 13, 52: 29, 57: 40, 62: 22, 88: 18, 95: 51, 97: 79 };
 
         const btnStartSetup = document.getElementById('btnStartSetup');
@@ -862,7 +862,6 @@ Sungai terpanjang di pulau Jawa adalah sungai?,Sungai Musi,Sungai Kapuas,Bengawa
             }
         }
 
-        // Perhitungan Matematika Murni (100% Akurat)
         function getTileCoordinates(tileNum) {
             const rowIdx = Math.floor((tileNum - 1) / 10);
             let colIdx;
@@ -892,7 +891,6 @@ Sungai terpanjang di pulau Jawa adalah sungai?,Sungai Musi,Sungai Kapuas,Bengawa
                 const length = Math.sqrt(dx*dx + dy*dy);
                 const angle = Math.atan2(dy, dx);
                 
-                // Offset 10px (diperkecil dari 12px) agar garis aman di dalam kotak
                 const railOffset = 10; 
                 const r1x = p1.x - railOffset * Math.sin(angle); const r1y = p1.y + railOffset * Math.cos(angle);
                 const r2x = p2.x - railOffset * Math.sin(angle); const r2y = p2.y + railOffset * Math.cos(angle);
@@ -976,11 +974,13 @@ Sungai terpanjang di pulau Jawa adalah sungai?,Sungai Musi,Sungai Kapuas,Bengawa
             updateScoreboards();
             switchScreen('arena');
 
-            // Tunggu sebentar agar DOM benar-benar siap sebelum menggambar grid dan garis
+            // Render grid secara sinkron
+            buildDynamicBoardGrid();
+
+            // Beri jeda sedikit agar browser telah menggambar kotak (DOM) sebelum SVG digambar
             setTimeout(() => {
-                buildDynamicBoardGrid();
                 drawBoardPaths();
-            }, 50);
+            }, 100);
 
             const sourceType = document.querySelector('input[name="sourceType"]:checked').value;
             let currentTopic = "Bawaan";
@@ -995,10 +995,9 @@ Sungai terpanjang di pulau Jawa adalah sungai?,Sungai Musi,Sungai Kapuas,Bengawa
             document.getElementById('currentTopicLabel').textContent = "Topik: " + currentTopic;
             setupStatus.classList.add('hidden');
 
-            // Panggil soal pertama dengan delay tipis
             setTimeout(() => {
                 updateActivePlayerVisuals();
-            }, 150);
+            }, 200);
         }
 
         // Resize listener agar garis tetap presisi saat ukuran layar berubah
