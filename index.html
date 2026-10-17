@@ -228,19 +228,20 @@
             <div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-emerald-500/20 rounded-full blur-[120px] pointer-events-none"></div>
             <div class="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-purple-500/20 rounded-full blur-[120px] pointer-events-none"></div>
 
-            <header class="text-center mb-8 mt-4 relative z-10">
+            <header class="text-center mb-8 mt-4 relative z-10 max-w-3xl mx-auto">
                 <div class="inline-flex items-center gap-2 bg-slate-800/80 backdrop-blur border border-slate-600 px-4 py-2 rounded-full text-emerald-400 font-bold text-xs tracking-widest mb-4 shadow-lg shadow-emerald-900/20 uppercase">
                     <i class="fa-solid fa-gamepad animate-pulse"></i> Game Developed By Misbahul Munir
                 </div>
-                <h1 class="text-5xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 drop-shadow-2xl tracking-tight mb-3 flex items-center justify-center gap-4">
+                <h1 class="text-4xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 drop-shadow-2xl tracking-tight mb-3 flex items-center justify-center gap-4">
                     Ular Tangga Edu <span class="animate-float inline-block">🐍🎲</span>
                 </h1>
-                <p class="text-slate-300 text-sm sm:text-lg max-w-2xl mx-auto font-medium">
-                    Kocok dadu, jawab soal, dan berjuanglah menjadi yang tercepat di kotak 100!
+                <p class="text-slate-300 text-sm sm:text-lg mx-auto font-medium">
+                    Jawab soal dengan benar, lalu dadu akan terkocok otomatis untuk melangkah!
                 </p>
             </header>
 
-            <div class="glass-card rounded-3xl p-6 sm:p-8 max-w-5xl mx-auto w-full mb-8 relative z-10">
+            <!-- Diubah lebar maksimalnya menjadi max-w-4xl agar tidak terlalu melebar -->
+            <div class="glass-card rounded-3xl p-6 sm:p-8 max-w-4xl mx-auto w-full mb-8 relative z-10">
                 
                 <!-- ROW 1: NUMBER OF PLAYERS & SOURCE -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
@@ -398,32 +399,17 @@
         <!-- ========================================== -->
         <section id="screen-arena" class="hidden h-full w-full flex-row bg-slate-950 text-white overflow-hidden p-2 sm:p-4 gap-2 sm:gap-4 relative">
             
-            <!-- LEFT COLUMN: BOARD GRID (Enlarged to 80vh for much better visibility) -->
+            <!-- LEFT COLUMN: BOARD GRID -->
             <div class="flex-grow flex items-center justify-center h-full max-w-[80vh] w-full mx-auto relative shrink-0">
                 <div class="relative w-full aspect-square bg-slate-900/80 rounded-2xl border border-slate-700/50 shadow-2xl overflow-hidden" id="boardWrapper">
-                    
-                    <!-- Dynamic Grid 10x10 will be generated here -->
-                    <div id="boardTilesGrid" class="absolute inset-0 grid grid-cols-10 grid-rows-10 w-full h-full p-1 sm:p-1.5 gap-0.5 sm:gap-1">
-                    </div>
+                    <div id="boardTilesGrid" class="absolute inset-0 grid grid-cols-10 grid-rows-10 w-full h-full p-1 sm:p-1.5 gap-0.5 sm:gap-1"></div>
 
-                    <!-- SVG OVERLAY FOR SNAKES AND LADDERS PATHS -->
                     <svg id="svgOverlay" class="absolute inset-0 w-full h-full pointer-events-none z-20" viewBox="0 0 1000 1000">
                         <defs>
-                            <!-- Gradients for snake design -->
-                            <linearGradient id="gradSnakeRed" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" stop-color="#ef4444" />
-                                <stop offset="100%" stop-color="#b91c1c" />
-                            </linearGradient>
-                            <linearGradient id="gradSnakeOrange" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" stop-color="#f97316" />
-                                <stop offset="100%" stop-color="#c2410c" />
-                            </linearGradient>
-                            <!-- Gradients for ladders design -->
                             <linearGradient id="gradLadder" x1="0%" y1="0%" x2="0%" y2="100%">
                                 <stop offset="0%" stop-color="#10b981" />
                                 <stop offset="100%" stop-color="#047857" />
                             </linearGradient>
-                            
                             <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
                                 <feDropShadow dx="2" dy="4" stdDeviation="4" flood-opacity="0.5"/>
                             </filter>
@@ -434,111 +420,66 @@
                 </div>
             </div>
 
-            <!-- RIGHT COLUMN: INTERACTIVE GAME CONTROLLER & TRIVIA PANEL -->
+            <!-- RIGHT COLUMN: INTERACTIVE GAME CONTROLLER -->
             <div class="flex-1 flex flex-col h-full bg-slate-900/40 rounded-2xl border border-slate-800 p-3 overflow-hidden">
                 
-                <!-- PLAYERS STANDING SCOREBOARD (MINI PANEL) -->
+                <!-- MINI LEADERBOARD -->
                 <div class="mb-3">
                     <div class="flex justify-between items-center mb-1.5">
                         <span class="text-xs font-bold text-slate-400 uppercase tracking-widest"><i class="fa-solid fa-trophy"></i> Peringkat</span>
                         <span class="text-[10px] text-slate-500" id="currentTopicLabel">Topik: Bawaan</span>
                     </div>
-                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-1.5" id="miniLeaderboard">
-                        <!-- Dynamic Player Score Card will be injected here -->
-                    </div>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-1.5" id="miniLeaderboard"></div>
                 </div>
 
-                <!-- GAME CONTROLS & TRIVIA INTERACTION ZONE -->
+                <!-- MAIN INTERACTION AREA -->
                 <div class="flex-1 flex flex-col justify-between bg-slate-900/90 rounded-xl border border-slate-700/40 p-3 overflow-hidden">
                     
-                    <!-- SUB-SECTION 1: TURN INFORMATION & DICE ROLLER -->
-                    <div id="interactionMain" class="flex flex-col gap-3 h-full justify-center">
+                    <!-- SUB-SECTION 1: DICE (Tampil setelah jawab benar) -->
+                    <div id="interactionMain" class="hidden flex-col gap-3 h-full justify-center">
                         <div class="text-center">
                             <span class="text-[10px] uppercase font-bold tracking-widest px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-400" id="roundIndicator">Putaran 1</span>
                             <h2 class="text-base sm:text-lg font-black mt-1" id="turnIndicator">Giliran: <span class="text-red-400" id="currentPlayerName">Pemain Red</span></h2>
                         </div>
 
-                        <!-- DICE CONTAINER -->
                         <div class="flex flex-row items-center justify-center gap-6 py-2">
-                            <!-- Graphical 3D Dice -->
+                            <!-- 3D Dice -->
                             <div class="dice-scene">
                                 <div class="dice" id="visualDice">
-                                    <!-- Front -->
-                                    <div class="dice-face face-1">
-                                        <div class="dice-dot dot-1"></div>
-                                    </div>
-                                    <!-- Back -->
-                                    <div class="dice-face face-3">
-                                        <div class="dice-dot dot-1"></div>
-                                        <div class="dice-dot dot-2"></div>
-                                        <div class="dice-dot dot-3"></div>
-                                    </div>
-                                    <!-- Right -->
-                                    <div class="dice-face face-2">
-                                        <div class="dice-dot dot-1"></div>
-                                        <div class="dice-dot dot-2"></div>
-                                    </div>
-                                    <!-- Left -->
-                                    <div class="dice-face face-4">
-                                        <div class="dice-dot dot-1"></div>
-                                        <div class="dice-dot dot-2"></div>
-                                        <div class="dice-dot dot-3"></div>
-                                        <div class="dice-dot dot-4"></div>
-                                    </div>
-                                    <!-- Top -->
-                                    <div class="dice-face face-5">
-                                        <div class="dice-dot dot-1"></div>
-                                        <div class="dice-dot dot-2"></div>
-                                        <div class="dice-dot dot-3"></div>
-                                        <div class="dice-dot dot-4"></div>
-                                        <div class="dice-dot dot-5"></div>
-                                    </div>
-                                    <!-- Bottom -->
-                                    <div class="dice-face face-6">
-                                        <div class="dice-dot dot-1"></div>
-                                        <div class="dice-dot dot-2"></div>
-                                        <div class="dice-dot dot-3"></div>
-                                        <div class="dice-dot dot-4"></div>
-                                        <div class="dice-dot dot-5"></div>
-                                        <div class="dice-dot dot-6"></div>
-                                    </div>
+                                    <div class="dice-face face-1"><div class="dice-dot dot-1"></div></div>
+                                    <div class="dice-face face-3"><div class="dice-dot dot-1"></div><div class="dice-dot dot-2"></div><div class="dice-dot dot-3"></div></div>
+                                    <div class="dice-face face-2"><div class="dice-dot dot-1"></div><div class="dice-dot dot-2"></div></div>
+                                    <div class="dice-face face-4"><div class="dice-dot dot-1"></div><div class="dice-dot dot-2"></div><div class="dice-dot dot-3"></div><div class="dice-dot dot-4"></div></div>
+                                    <div class="dice-face face-5"><div class="dice-dot dot-1"></div><div class="dice-dot dot-2"></div><div class="dice-dot dot-3"></div><div class="dice-dot dot-4"></div><div class="dice-dot dot-5"></div></div>
+                                    <div class="dice-face face-6"><div class="dice-dot dot-1"></div><div class="dice-dot dot-2"></div><div class="dice-dot dot-3"></div><div class="dice-dot dot-4"></div><div class="dice-dot dot-5"></div><div class="dice-dot dot-6"></div></div>
                                 </div>
                             </div>
                             
-                            <!-- Trigger Button -->
-                            <div class="flex flex-col gap-1">
-                                <button id="btnRollDice" class="bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-slate-950 font-black py-2.5 px-6 rounded-xl shadow-[0_4px_0_0_#9a3412] hover:shadow-[0_2px_0_0_#9a3412] hover:translate-y-[2px] transition-all text-xs sm:text-sm uppercase tracking-wider flex items-center gap-1.5">
-                                    <i class="fa-solid fa-dice"></i> KOCOK DADU
-                                </button>
-                                <span class="text-[10px] text-slate-400 text-center italic" id="diceRollValueText">Menunggu giliran...</span>
+                            <!-- Info Text (Tombol dihapus karena otomatis) -->
+                            <div class="flex flex-col gap-1 text-center">
+                                <span class="text-sm font-black text-amber-400 animate-pulse">Dadu Dikocok Otomatis!</span>
+                                <span class="text-[10px] text-slate-400 italic" id="diceRollValueText">Menunggu dadu berhenti...</span>
                             </div>
                         </div>
                     </div>
 
-                    <!-- SUB-SECTION 2: TRIVIA / CHALLENGE VIEW CARD (Revealed after Dice Roll) -->
+                    <!-- SUB-SECTION 2: TRIVIA (Tampil segera saat giliran) -->
                     <div id="interactionChallenge" class="hidden flex-col gap-2 h-full overflow-hidden">
                         <div class="flex items-center justify-between border-b border-slate-800 pb-1.5 shrink-0">
                             <span class="text-[10px] font-black uppercase text-amber-400 tracking-wider flex items-center gap-1">
                                 <i class="fa-solid fa-brain animate-pulse"></i> Jawab untuk Melangkah!
                             </span>
-                            <span class="text-[10px] text-slate-400" id="challengeStepsValue">Dadu: 4 Kotak</span>
+                            <span class="text-[10px] text-slate-400" id="challengeStepsValue">Jawab Benar = Dadu Jalan</span>
                         </div>
                         
                         <div class="flex-1 flex flex-col gap-2 overflow-hidden justify-center py-1">
-                            <!-- Challenge Box -->
-                            <div class="bg-slate-950 border border-slate-800 p-2.5 rounded-xl text-center max-h-[100px] overflow-y-auto custom-scroll flex items-center justify-center">
-                                <span id="currentQuestionText" class="text-xs sm:text-sm font-bold text-slate-200 leading-relaxed">Loading questions...</span>
+                            <div class="bg-slate-950 border border-slate-800 p-3 rounded-xl text-center max-h-[120px] overflow-y-auto custom-scroll flex items-center justify-center shadow-inner">
+                                <span id="currentQuestionText" class="text-sm font-bold text-slate-100 leading-relaxed">Loading questions...</span>
                             </div>
-                            <!-- Options Grid -->
-                            <div class="grid grid-cols-2 gap-2" id="optionsContainer">
-                                <!-- Option buttons will be generated dynamically -->
-                            </div>
+                            <div class="grid grid-cols-2 gap-2 mt-2" id="optionsContainer"></div>
                         </div>
 
-                        <!-- Instant Action / Feedbacks -->
-                        <div id="arenaFeedback" class="hidden p-2 rounded-lg text-center font-bold text-xs shrink-0 transform scale-95 transition-all">
-                            BENAR! Anda Berhasil Melangkah.
-                        </div>
+                        <div id="arenaFeedback" class="hidden p-2 rounded-lg text-center font-bold text-xs shrink-0 transform scale-95 transition-all"></div>
                     </div>
 
                 </div>
@@ -556,15 +497,11 @@
                 <h3 id="winnerText" class="text-3xl sm:text-4xl font-black text-emerald-400 mb-1">Selamat, Pemain Red!</h3>
                 <p id="winnerSubtext" class="text-slate-400 font-medium mb-5 text-xs sm:text-sm">Telah berhasil menaklukkan puncak!</p>
                 
-                <!-- PODIUM STANDINGS TABLE -->
                 <div class="bg-slate-950 border border-slate-800 rounded-2xl p-4 mb-5 shadow-inner">
                     <h4 class="text-xs font-black uppercase text-slate-400 tracking-wider mb-3"><i class="fa-solid fa-ranking-star"></i> Peringkat Akhir</h4>
-                    <div class="space-y-2 text-left" id="finalStandingsContainer">
-                        <!-- Filled dynamically -->
-                    </div>
+                    <div class="space-y-2 text-left" id="finalStandingsContainer"></div>
                 </div>
 
-                <!-- AI COMMENTATOR (RE-INCORPORATED) -->
                 <button id="btnAICommentary" class="w-full bg-gradient-to-r from-amber-400 to-orange-500 hover:from-amber-500 hover:to-orange-600 text-slate-950 font-black py-2.5 px-4 rounded-xl shadow transition-transform transform active:scale-95 mb-3 text-xs sm:text-sm flex items-center justify-center gap-2">
                     <i class="fa-solid fa-microphone"></i> Komentator AI (Gemini)
                 </button>
@@ -610,7 +547,6 @@
         let roundCount = 1;
         let aiGeneratedQuestions = null;
 
-        // Default Bank Soal
         const defaultCSVData = `Pertanyaan,Opsi A,Opsi B,Opsi C,Opsi D,Jawaban Benar
 Berapakah hasil dari 7 x 8?,54,56,64,48,56
 Ibukota negara Indonesia adalah?,Bandung,Surabaya,Jakarta,Medan,Jakarta
@@ -754,30 +690,9 @@ Suku bangsa yang terkenal dengan rumah adat Gadang adalah suku?,Jawa,Sunda,Minan
 Sungai terpanjang di pulau Jawa adalah sungai?,Sungai Musi,Sungai Kapuas,Bengawan Solo,Sungai Brantas,Bengawan Solo`
         };
 
-        // Map configurations: Bases & Ends of Snakes and Ladders
-        const LADDERS = {
-            3: 21,
-            8: 30,
-            28: 84,
-            58: 77,
-            75: 86,
-            80: 100
-        };
+        const LADDERS = { 3: 21, 8: 30, 28: 84, 58: 77, 75: 86, 80: 100 };
+        const SNAKES = { 17: 13, 52: 29, 57: 40, 62: 22, 88: 18, 95: 51, 97: 79 };
 
-        const SNAKES = {
-            17: 13,
-            52: 29,
-            57: 40,
-            62: 22,
-            88: 18,
-            95: 51,
-            97: 79
-        };
-
-        // Elements Selections
-        const screenSetup = document.getElementById('screen-setup');
-        const screenArena = document.getElementById('screen-arena');
-        const screenResult = document.getElementById('screen-result');
         const btnStartSetup = document.getElementById('btnStartSetup');
         const btnRestart = document.getElementById('btnRestart');
         const setupStatus = document.getElementById('setupStatus');
@@ -789,7 +704,6 @@ Sungai terpanjang di pulau Jawa adalah sungai?,Sungai Musi,Sungai Kapuas,Bengawa
             ai: document.getElementById('section-ai')
         };
 
-        // Setup Screen: Switch source inputs
         sourceTypeRadios.forEach(radio => {
             radio.addEventListener('change', (e) => {
                 Object.values(sections).forEach(sec => {
@@ -802,16 +716,15 @@ Sungai terpanjang di pulau Jawa adalah sungai?,Sungai Musi,Sungai Kapuas,Bengawa
             });
         });
 
-        // Config Number of Active Players
         const btnPlayerCounts = document.querySelectorAll('.btn-player-count');
         btnPlayerCounts.forEach(btn => {
             btn.addEventListener('click', (e) => {
                 btnPlayerCounts.forEach(b => {
-                    b.classList.remove('bg-emerald-500/10', 'text-emerald-400', 'border-emerald-500', 'active-selection');
-                    b.classList.add('border-slate-700', 'text-white');
+                    b.classList.remove('bg-emerald-500/20', 'text-emerald-300', 'border-emerald-500', 'active-selection', 'shadow-[0_0_15px_rgba(16,185,129,0.3)]', 'scale-105');
+                    b.classList.add('border-slate-600', 'text-slate-300');
                 });
-                btn.classList.remove('border-slate-700', 'text-white');
-                btn.classList.add('bg-emerald-500/10', 'text-emerald-400', 'border-emerald-500', 'active-selection');
+                btn.classList.remove('border-slate-600', 'text-slate-300');
+                btn.classList.add('bg-emerald-500/20', 'text-emerald-300', 'border-emerald-500', 'active-selection', 'shadow-[0_0_15px_rgba(16,185,129,0.3)]', 'scale-105');
                 
                 numPlayers = parseInt(btn.getAttribute('data-players'));
                 updatePlayerFormVisibility();
@@ -824,7 +737,6 @@ Sungai terpanjang di pulau Jawa adalah sungai?,Sungai Musi,Sungai Kapuas,Bengawa
         }
         updatePlayerFormVisibility();
 
-        // Fullscreen Logic
         const btnFullscreen = document.getElementById('btnFullscreen');
         btnFullscreen.addEventListener('click', () => {
             if (!document.fullscreenElement) {
@@ -849,33 +761,26 @@ Sungai terpanjang di pulau Jawa adalah sungai?,Sungai Musi,Sungai Kapuas,Bengawa
             }
         });
 
-        // Parse Sheet URLs 
         function getCsvExportUrl(url) {
-            if (url.includes('export?format=csv') || url.endsWith('.csv')) {
-                return url;
-            }
+            if (url.includes('export?format=csv') || url.endsWith('.csv')) return url;
             const match = url.match(/\/d\/([a-zA-Z0-9-_]+)/);
             if (match && match[1]) {
                 const sheetId = match[1];
                 let gid = "0";
                 const gidMatch = url.match(/[#&]gid=([0-9]+)/);
-                if (gidMatch && gidMatch[1]) {
-                    gid = gidMatch[1];
-                }
+                if (gidMatch && gidMatch[1]) gid = gidMatch[1];
                 return `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=${gid}`;
             }
             return url;
         }
 
-        // Start Game Click Event
         btnStartSetup.addEventListener('click', () => {
             const sourceType = document.querySelector('input[name="sourceType"]:checked').value;
             setupStatus.classList.remove('hidden');
             setupStatus.innerHTML = '<i class="fa-solid fa-spinner animate-spin"></i> Menyiapkan materi tantangan...';
 
-            // Gather Player Profiles
             players = [];
-            const colors = ['#ef4444', '#3b82f6', '#10b981', '#eab308']; // Red, Blue, Green, Yellow
+            const colors = ['#ef4444', '#3b82f6', '#10b981', '#eab308'];
             const textColors = ['text-red-400', 'text-blue-400', 'text-emerald-400', 'text-yellow-400'];
             const namesInputs = document.querySelectorAll('.player-name-input');
             
@@ -907,9 +812,7 @@ Sungai terpanjang di pulau Jawa adalah sungai?,Sungai Musi,Sungai Kapuas,Bengawa
                 }
                 const url = getCsvExportUrl(rawUrl);
                 Papa.parse(url, {
-                    download: true,
-                    header: true,
-                    skipEmptyLines: true,
+                    download: true, header: true, skipEmptyLines: true,
                     complete: function(results) {
                         if(results.data && results.data.length > 0 && results.data[0]['Pertanyaan']) {
                             bankSoal = results.data;
@@ -924,12 +827,11 @@ Sungai terpanjang di pulau Jawa adalah sungai?,Sungai Musi,Sungai Kapuas,Bengawa
                         setupStatus.classList.add('hidden');
                     }
                 });
-            } else { // builtin
+            } else {
                 const instantTopicKey = document.getElementById('instantTopic').value;
                 const rawCsvText = daftarTopikSoal[instantTopicKey] || defaultCSVData;
                 Papa.parse(rawCsvText, {
-                    header: true,
-                    skipEmptyLines: true,
+                    header: true, skipEmptyLines: true,
                     complete: function(results) {
                         bankSoal = results.data;
                         startGame();
@@ -955,12 +857,10 @@ Sungai terpanjang di pulau Jawa adalah sungai?,Sungai Musi,Sungai Kapuas,Bengawa
             }
         }
 
-        // Board UI Generation
         function buildDynamicBoardGrid() {
             const gridContainer = document.getElementById('boardTilesGrid');
             gridContainer.innerHTML = '';
 
-            // Generate tiles 100 down to 1 (zig-zag layout)
             for (let rowIdx = 9; rowIdx >= 0; rowIdx--) {
                 const isRowOdd = rowIdx % 2 !== 0; 
                 let startNum, endNum, step;
@@ -980,7 +880,6 @@ Sungai terpanjang di pulau Jawa adalah sungai?,Sungai Musi,Sungai Kapuas,Bengawa
                     tileDiv.id = `tile-${tileNum}`;
                     tileDiv.className = `board-tile rounded-md flex flex-col justify-between p-1 border text-[10px] font-extrabold select-none transition-all duration-300`;
                     
-                    // Distinct backgrounds for grids
                     let baseBg = "bg-slate-900/50 border-slate-800/40 text-slate-500";
                     if (tileNum === 1) {
                         baseBg = "bg-emerald-500/20 border-emerald-500/40 text-emerald-400";
@@ -996,7 +895,6 @@ Sungai terpanjang di pulau Jawa adalah sungai?,Sungai Musi,Sungai Kapuas,Bengawa
                     
                     tileDiv.className += ` ${baseBg}`;
 
-                    // Tile info
                     let tileLabel = `${tileNum}`;
                     if (LADDERS[tileNum]) tileLabel += ' 🪜';
                     if (SNAKES[tileNum]) tileLabel += ' 🐍';
@@ -1010,134 +908,86 @@ Sungai terpanjang di pulau Jawa adalah sungai?,Sungai Musi,Sungai Kapuas,Bengawa
             }
         }
 
-        // Get center position of an indexed tile (X and Y as percentages: 0 to 1000)
         function getTileCoordinates(tileNum) {
             const rowIdx = Math.floor((tileNum - 1) / 10);
             let colIdx;
-            
-            if (rowIdx % 2 === 0) {
-                // Even rows (0, 2, 4...) move left-to-right
-                colIdx = (tileNum - 1) % 10;
-            } else {
-                // Odd rows (1, 3, 5...) move right-to-left
-                colIdx = 9 - ((tileNum - 1) % 10);
-            }
-
-            // Standard Top-Left is (0,0) in SVG viewBox="0 0 1000 1000"
+            if (rowIdx % 2 === 0) colIdx = (tileNum - 1) % 10;
+            else colIdx = 9 - ((tileNum - 1) % 10);
             const x = (colIdx + 0.5) * 100;
             const y = (9 - rowIdx + 0.5) * 100;
-
             return { x, y };
         }
 
-        // Draw Snakes and Ladders on the Vektor SVG Canvas Overlay
         function drawBoardPaths() {
             const snakesGroup = document.getElementById('snakesGroup');
             const laddersGroup = document.getElementById('laddersGroup');
-
             snakesGroup.innerHTML = '';
             laddersGroup.innerHTML = '';
 
-            // 1. Draw Ladders
             Object.entries(LADDERS).forEach(([start, end]) => {
                 const p1 = getTileCoordinates(parseInt(start));
                 const p2 = getTileCoordinates(parseInt(end));
-
-                const dx = p2.x - p1.x;
-                const dy = p2.y - p1.y;
+                const dx = p2.x - p1.x; const dy = p2.y - p1.y;
                 const length = Math.sqrt(dx*dx + dy*dy);
                 const angle = Math.atan2(dy, dx);
-
                 const railOffset = 18;
-                const r1x = p1.x - railOffset * Math.sin(angle);
-                const r1y = p1.y + railOffset * Math.cos(angle);
-                const r2x = p2.x - railOffset * Math.sin(angle);
-                const r2y = p2.y + railOffset * Math.cos(angle);
+                const r1x = p1.x - railOffset * Math.sin(angle); const r1y = p1.y + railOffset * Math.cos(angle);
+                const r2x = p2.x - railOffset * Math.sin(angle); const r2y = p2.y + railOffset * Math.cos(angle);
+                const l1x = p1.x + railOffset * Math.sin(angle); const l1y = p1.y - railOffset * Math.cos(angle);
+                const l2x = p2.x + railOffset * Math.sin(angle); const l2y = p2.y - railOffset * Math.cos(angle);
 
-                const l1x = p1.x + railOffset * Math.sin(angle);
-                const l1y = p1.y - railOffset * Math.cos(angle);
-                const l2x = p2.x + railOffset * Math.sin(angle);
-                const l2y = p2.y - railOffset * Math.cos(angle);
-
-                const rail1 = `<line x1="${r1x}" y1="${r1y}" x2="${r2x}" y2="${r2y}" stroke="url(#gradLadder)" stroke-width="8" stroke-linecap="round" filter="url(#shadow)"/>`;
-                const rail2 = `<line x1="${l1x}" y1="${l1y}" x2="${l2x}" y2="${l2y}" stroke="url(#gradLadder)" stroke-width="8" stroke-linecap="round" filter="url(#shadow)"/>`;
-
-                laddersGroup.innerHTML += rail1 + rail2;
+                laddersGroup.innerHTML += `<line x1="${r1x}" y1="${r1y}" x2="${r2x}" y2="${r2y}" stroke="url(#gradLadder)" stroke-width="8" stroke-linecap="round" filter="url(#shadow)"/>`;
+                laddersGroup.innerHTML += `<line x1="${l1x}" y1="${l1y}" x2="${l2x}" y2="${l2y}" stroke="url(#gradLadder)" stroke-width="8" stroke-linecap="round" filter="url(#shadow)"/>`;
 
                 const numRungs = Math.max(4, Math.floor(length / 45));
                 for (let i = 1; i < numRungs; i++) {
                     const t = i / numRungs;
-                    const rx = r1x + t * (r2x - r1x);
-                    const ry = r1y + t * (r2y - r1y);
-                    const lx = l1x + t * (l2x - l1x);
-                    const ly = l1y + t * (l2y - l1y);
-
-                    const rung = `<line x1="${rx}" y1="${ry}" x2="${lx}" y2="${ly}" stroke="#34d399" stroke-width="4" stroke-linecap="round"/>`;
-                    laddersGroup.innerHTML += rung;
+                    const rx = r1x + t * (r2x - r1x); const ry = r1y + t * (r2y - r1y);
+                    const lx = l1x + t * (l2x - l1x); const ly = l1y + t * (l2y - l1y);
+                    laddersGroup.innerHTML += `<line x1="${rx}" y1="${ry}" x2="${lx}" y2="${ly}" stroke="#34d399" stroke-width="4" stroke-linecap="round"/>`;
                 }
             });
 
-            // 2. Draw Snakes (Curved vectors with authentic snake details)
             Object.entries(SNAKES).forEach(([start, end], index) => {
-                const head = getTileCoordinates(parseInt(start)); // snake head (highest tile)
-                const tail = getTileCoordinates(parseInt(end));   // snake tail (lowest tile)
-
-                const dx = tail.x - head.x;
-                const dy = tail.y - head.y;
+                const head = getTileCoordinates(parseInt(start));
+                const tail = getTileCoordinates(parseInt(end));
+                const dx = tail.x - head.x; const dy = tail.y - head.y;
                 const length = Math.sqrt(dx * dx + dy * dy);
-                
-                const px = -dy;
-                const py = dx;
+                const px = -dy; const py = dx;
                 const len = Math.sqrt(px * px + py * py);
-                const nx = px / len;
-                const ny = py / len;
-
+                const nx = px / len; const ny = py / len;
                 const waveOffset = Math.min(130, length * 0.28);
                 const cp1x = head.x + 0.35 * dx + (index % 2 === 0 ? waveOffset : -waveOffset) * nx;
                 const cp1y = head.y + 0.35 * dy + (index % 2 === 0 ? waveOffset : -waveOffset) * ny;
                 const cp2x = head.x + 0.65 * dx + (index % 2 === 0 ? -waveOffset : waveOffset) * nx;
                 const cp2y = head.y + 0.65 * dy + (index % 2 === 0 ? -waveOffset : waveOffset) * ny;
-
                 const pathData = `M ${head.x} ${head.y} C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${tail.x} ${tail.y}`;
 
                 let bodyColor, patternColor, accentColor;
-                if (index % 3 === 0) {
-                    bodyColor = "#e11d48";
-                    patternColor = "#fb923c";
-                    accentColor = "#fef08a";
-                } else if (index % 3 === 1) {
-                    bodyColor = "#059669";
-                    patternColor = "#34d399";
-                    accentColor = "#a7f3d0";
-                } else {
-                    bodyColor = "#7c3aed";
-                    patternColor = "#a78bfa";
-                    accentColor = "#f5f3ff";
-                }
+                if (index % 3 === 0) { bodyColor = "#e11d48"; patternColor = "#fb923c"; accentColor = "#fef08a"; }
+                else if (index % 3 === 1) { bodyColor = "#059669"; patternColor = "#34d399"; accentColor = "#a7f3d0"; }
+                else { bodyColor = "#7c3aed"; patternColor = "#a78bfa"; accentColor = "#f5f3ff"; }
 
-                const baseBody = `<path d="${pathData}" fill="none" stroke="${bodyColor}" stroke-width="20" stroke-linecap="round" filter="url(#shadow)" />`;
-                const patternBody = `<path d="${pathData}" fill="none" stroke="${patternColor}" stroke-width="12" stroke-linecap="round" />`;
-                const scaleBody = `<path d="${pathData}" fill="none" stroke="${accentColor}" stroke-width="6" stroke-linecap="round" stroke-dasharray="14,18" />`;
+                snakesGroup.innerHTML += `<path d="${pathData}" fill="none" stroke="${bodyColor}" stroke-width="20" stroke-linecap="round" filter="url(#shadow)" />`;
+                snakesGroup.innerHTML += `<path d="${pathData}" fill="none" stroke="${patternColor}" stroke-width="12" stroke-linecap="round" />`;
+                snakesGroup.innerHTML += `<path d="${pathData}" fill="none" stroke="${accentColor}" stroke-width="6" stroke-linecap="round" stroke-dasharray="14,18" />`;
 
                 const headAngle = Math.atan2(head.y - cp1y, head.x - cp1x);
                 const headRotation = (headAngle * 180) / Math.PI;
                 
-                const snakeHeadG = `
+                snakesGroup.innerHTML += `
                     <g transform="translate(${head.x}, ${head.y}) rotate(${headRotation})">
                         <path d="M 12,0 L 26,0 M 26,0 L 33,-4 M 26,0 L 33,4" stroke="#ef4444" stroke-width="3.5" stroke-linecap="round" fill="none" />
                         <path d="M -8,-13 C 2,-16 14,-10 17,0 C 14,10 2,16 -8,13 C -14,9 -14,-9 -8,-13 Z" fill="${bodyColor}" stroke="${patternColor}" stroke-width="1.5" />
                         <circle cx="-3" cy="0" r="4" fill="${accentColor}" opacity="0.8" />
-                        <circle cx="5" cy="-6" r="3" fill="#facc15" />
-                        <circle cx="6" cy="-6" r="1.5" fill="black" />
-                        <circle cx="5" cy="6" r="3" fill="#facc15" />
-                        <circle cx="6" cy="6" r="1.5" fill="black" />
+                        <circle cx="5" cy="-6" r="3" fill="#facc15" /><circle cx="6" cy="-6" r="1.5" fill="black" />
+                        <circle cx="5" cy="6" r="3" fill="#facc15" /><circle cx="6" cy="6" r="1.5" fill="black" />
                     </g>
                 `;
 
                 const tailAngle = Math.atan2(tail.y - cp2y, tail.x - cp2x);
                 const tailRotation = (tailAngle * 180) / Math.PI;
-
-                const snakeTailG = `
+                snakesGroup.innerHTML += `
                     <g transform="translate(${tail.x}, ${tail.y}) rotate(${tailRotation})">
                         <path d="M 0,-10 L -12,0 L 0,10 Z" fill="${bodyColor}" />
                         <ellipse cx="-10" cy="0" rx="5" ry="5.5" fill="#d97706" stroke="#78350f" stroke-width="1" />
@@ -1145,12 +995,9 @@ Sungai terpanjang di pulau Jawa adalah sungai?,Sungai Musi,Sungai Kapuas,Bengawa
                         <ellipse cx="-21" cy="0" rx="3" ry="3.5" fill="#fbbf24" stroke="#78350f" stroke-width="1" />
                     </g>
                 `;
-
-                snakesGroup.innerHTML += baseBody + patternBody + scaleBody + snakeHeadG + snakeTailG;
             });
         }
 
-        // Start Game Init
         function startGame() {
             activePlayerIndex = 0;
             isDiceRolling = false;
@@ -1158,21 +1005,14 @@ Sungai terpanjang di pulau Jawa adalah sungai?,Sungai Musi,Sungai Kapuas,Bengawa
             isGameOver = false;
             roundCount = 1;
 
-            // Render Board Grid and SVG Lines
             buildDynamicBoardGrid();
             drawBoardPaths();
-
-            // Set all active players positions back to 1
             players.forEach(p => p.position = 1);
 
             updatePawnPositions();
-            updateActivePlayerVisuals();
             updateScoreboards();
-
-            // Switch Screen layout
             switchScreen('arena');
 
-            // Set Topic Header
             const sourceType = document.querySelector('input[name="sourceType"]:checked').value;
             let currentTopic = "Bawaan";
             if (sourceType === 'ai') {
@@ -1184,61 +1024,55 @@ Sungai terpanjang di pulau Jawa adalah sungai?,Sungai Musi,Sungai Kapuas,Bengawa
                 currentTopic = topicDropdown.options[topicDropdown.selectedIndex].text;
             }
             document.getElementById('currentTopicLabel').textContent = "Topik: " + currentTopic;
-
-            // Clear setup loading spinner
             setupStatus.classList.add('hidden');
+
+            // Panggil giliran pertama
+            updateActivePlayerVisuals();
         }
 
-        // Helper to check if the answer is correct dynamically
         function cekApakahJawabanBenar(opsiKey, opsiText, jawabanBenar) {
             if (!jawabanBenar || !opsiText) return false;
-            
             const cleanJawaban = jawabanBenar.toString().trim().toLowerCase();
             const cleanOpsiText = opsiText.toString().trim().toLowerCase();
-            const hurufPilihan = opsiKey.replace('Opsi ', '').trim().toLowerCase(); // 'a', 'b', 'c', or 'd'
+            const hurufPilihan = opsiKey.replace('Opsi ', '').trim().toLowerCase();
 
             if (cleanOpsiText === cleanJawaban) return true;
             if (cleanJawaban === hurufPilihan) return true;
-
-            if (cleanJawaban === `opsi ${hurufPilihan}` || 
-                cleanJawaban === `opsi_${hurufPilihan}` || 
-                cleanJawaban === `opsia` || 
-                cleanJawaban === `opsi-${hurufPilihan}`) {
-                return true;
-            }
-
+            if (cleanJawaban === `opsi ${hurufPilihan}` || cleanJawaban === `opsi_${hurufPilihan}` || cleanJawaban === `opsia` || cleanJawaban === `opsi-${hurufPilihan}`) return true;
+            
             const formatTitik = `${hurufPilihan}. ${cleanOpsiText}`;
             const formatKurung = `${hurufPilihan}) ${cleanOpsiText}`;
             const formatStrip = `${hurufPilihan} - ${cleanOpsiText}`;
-            if (cleanJawaban === formatTitik || cleanJawaban === formatKurung || cleanJawaban === formatStrip) {
-                return true;
-            }
+            if (cleanJawaban === formatTitik || cleanJawaban === formatKurung || cleanJawaban === formatStrip) return true;
 
             if (cleanOpsiText.startsWith(`${hurufPilihan}.`) || cleanOpsiText.startsWith(`${hurufPilihan})`)) {
                 const opsiTextTanpaPrefix = cleanOpsiText.substring(2).trim();
                 if (opsiTextTanpaPrefix === cleanJawaban) return true;
             }
-
             return false;
         }
 
-        // Trivia Modal Panel Setup
+        // ==========================================
+        // LOGIKA UTAMA PERUBAHAN ALUR PERMAINAN
+        // ==========================================
+
         function presentTriviaChallenge() {
-            const activePlayer = players[activePlayerIndex];
             const qData = getRandomQuestion() || {
                 "Pertanyaan": "Berapakah sisa hasil pembagian 15 dengan 4?",
                 "Opsi A": "1", "Opsi B": "2", "Opsi C": "3", "Opsi D": "4",
                 "Jawaban Benar": "3"
             };
 
+            // Sembunyikan area dadu
             document.getElementById('interactionMain').classList.add('hidden');
             document.getElementById('interactionMain').classList.remove('flex');
             
+            // Tampilkan area soal
             const chalPanel = document.getElementById('interactionChallenge');
             chalPanel.classList.remove('hidden');
             chalPanel.classList.add('flex');
 
-            document.getElementById('challengeStepsValue').textContent = `Dadu: ${currentDiceRoll} Langkah`;
+            document.getElementById('challengeStepsValue').textContent = `Jawab Benar = Dadu Jalan`;
             document.getElementById('currentQuestionText').textContent = qData['Pertanyaan'];
 
             const optContainer = document.getElementById('optionsContainer');
@@ -1251,12 +1085,11 @@ Sungai terpanjang di pulau Jawa adalah sungai?,Sungai Musi,Sungai Kapuas,Bengawa
                 { text: qData['Opsi D'], isCorrect: cekApakahJawabanBenar('Opsi D', qData['Opsi D'], qData['Jawaban Benar']) }
             ];
 
-            // Shuffling options list
             options = shuffleArray(options.filter(opt => opt.text !== undefined && opt.text.toString().trim() !== ""));
 
             options.forEach(opt => {
                 const btn = document.createElement('button');
-                btn.className = `w-full text-left p-2.5 rounded-xl border border-slate-700 bg-slate-900/60 hover:bg-slate-800 text-slate-200 font-bold text-xs transition-all active:scale-95 leading-tight`;
+                btn.className = `w-full text-left p-3 rounded-xl border border-slate-700 bg-slate-900/60 hover:bg-slate-800 text-slate-200 font-bold text-xs transition-all active:scale-95 leading-tight`;
                 btn.textContent = opt.text;
                 btn.onclick = () => handlePlayerAnswer(opt.isCorrect, btn);
                 optContainer.appendChild(btn);
@@ -1265,37 +1098,39 @@ Sungai terpanjang di pulau Jawa adalah sungai?,Sungai Musi,Sungai Kapuas,Bengawa
             isDiceRolling = false;
         }
 
-        // Evaluate Trivia Answer Response
         function handlePlayerAnswer(isCorrect, btnElement) {
             const optContainer = document.getElementById('optionsContainer');
             const feedbackEl = document.getElementById('arenaFeedback');
             
-            // Disable other buttons
             Array.from(optContainer.children).forEach(b => b.disabled = true);
-
             feedbackEl.classList.remove('hidden');
 
             if (isCorrect) {
-                btnElement.className = "w-full text-left p-2.5 rounded-xl border border-emerald-500 bg-emerald-500/20 text-emerald-300 font-bold text-xs";
-                feedbackEl.textContent = `✅ BENAR! Melangkah ${currentDiceRoll} kotak!`;
-                feedbackEl.className = "p-2 rounded-lg text-center font-bold text-xs shrink-0 bg-emerald-500/10 text-emerald-400";
+                btnElement.className = "w-full text-left p-3 rounded-xl border border-emerald-500 bg-emerald-500/20 text-emerald-300 font-bold text-xs";
+                feedbackEl.textContent = `✅ BENAR! Dadu akan dikocok otomatis...`;
+                feedbackEl.className = "p-2 rounded-lg text-center font-bold text-xs shrink-0 bg-emerald-500/10 text-emerald-400 mt-2";
                 
-                // Move player pawn full roll length
+                // Beri jeda sebelum beralih ke animasi dadu
                 setTimeout(() => {
                     closeChallengePane();
-                    animatePawnSteps(players[activePlayerIndex], currentDiceRoll);
-                }, 1200);
+                    
+                    // Tampilkan area dadu
+                    document.getElementById('interactionMain').classList.remove('hidden');
+                    document.getElementById('interactionMain').classList.add('flex');
+
+                    // Jalankan fungsi kocok dadu otomatis
+                    autoRollDiceAndMove();
+                }, 1500);
 
             } else {
-                btnElement.className = "w-full text-left p-2.5 rounded-xl border border-rose-500 bg-rose-500/20 text-rose-300 font-bold text-xs";
+                btnElement.className = "w-full text-left p-3 rounded-xl border border-rose-500 bg-rose-500/20 text-rose-300 font-bold text-xs";
                 feedbackEl.textContent = `❌ SALAH! Tetap diam di kotak ini.`;
-                feedbackEl.className = "p-2 rounded-lg text-center font-bold text-xs shrink-0 bg-rose-500/10 text-rose-400";
+                feedbackEl.className = "p-2 rounded-lg text-center font-bold text-xs shrink-0 bg-rose-500/10 text-rose-400 mt-2";
                 
-                // 0 steps penalty
                 setTimeout(() => {
                     closeChallengePane();
                     passTurnToNextPlayer();
-                }, 1200);
+                }, 1500);
             }
         }
 
@@ -1306,45 +1141,68 @@ Sungai terpanjang di pulau Jawa adalah sungai?,Sungai Musi,Sungai Kapuas,Bengawa
             document.getElementById('interactionChallenge').classList.remove('flex');
         }
 
-        // Pawn Steps Transition Loops
+        // Fungsi Baru: Kocok Dadu Otomatis setelah jawaban benar
+        function autoRollDiceAndMove() {
+            isDiceRolling = true;
+            const dice = document.getElementById('visualDice');
+            dice.classList.add('rolling');
+            
+            currentDiceRoll = Math.floor(Math.random() * 6) + 1;
+            document.getElementById('diceRollValueText').textContent = "Mengocok dadu...";
+            
+            setTimeout(() => {
+                dice.classList.remove('rolling');
+                
+                let rotX = 0, rotY = 0;
+                switch (currentDiceRoll) {
+                    case 1: rotX = 0; rotY = 0; break;
+                    case 2: rotX = 0; rotY = -90; break;
+                    case 3: rotX = 0; rotY = -180; break;
+                    case 4: rotX = 0; rotY = 90; break;
+                    case 5: rotX = -90; rotY = 0; break;
+                    case 6: rotX = 90; rotY = 0; break;
+                }
+                
+                dice.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+                document.getElementById('diceRollValueText').textContent = `Dadu menunjukkan angka: ${currentDiceRoll}!`;
+                
+                setTimeout(() => {
+                    isDiceRolling = false;
+                    animatePawnSteps(players[activePlayerIndex], currentDiceRoll);
+                }, 1000);
+            }, 1000);
+        }
+
         function animatePawnSteps(player, steps) {
             isMoving = true;
             let currentStep = 0;
 
             function takeStep() {
                 if (currentStep < steps) {
-                    // Check bounds
                     if (player.position >= 100) {
                         player.position = 100;
                         endStepAnimation();
                         return;
                     }
-
                     player.position += 1;
                     currentStep++;
                     updatePawnPositions();
                     updateScoreboards();
 
-                    // Sound tick simulation (visual bouncing of tiles)
                     const activeTile = document.getElementById(`tile-${player.position}`);
                     if (activeTile) {
                         activeTile.classList.add('scale-105', 'bg-slate-700/60');
-                        setTimeout(() => {
-                            activeTile.classList.remove('scale-105', 'bg-slate-700/60');
-                        }, 250);
+                        setTimeout(() => { activeTile.classList.remove('scale-105', 'bg-slate-700/60'); }, 250);
                     }
-
-                    setTimeout(takeStep, 350); // pace of pawn jumping
+                    setTimeout(takeStep, 350);
                 } else {
                     endStepAnimation();
                 }
             }
 
             function endStepAnimation() {
-                // Check if landed on a snake or ladder
                 checkSpecialTilesLanding(player);
             }
-
             takeStep();
         }
 
@@ -1386,46 +1244,27 @@ Sungai terpanjang di pulau Jawa adalah sungai?,Sungai Musi,Sungai Kapuas,Bengawa
             if (LADDERS[currentSquare]) {
                 const targetSquare = LADDERS[currentSquare];
                 player.position = targetSquare;
-
-                // Ladder animation notification
                 const targetTile = document.getElementById(`tile-${targetSquare}`);
                 if (targetTile) {
                     targetTile.classList.add('ring-4', 'ring-emerald-500/50', 'animate-pulse');
                     setTimeout(() => targetTile.classList.remove('ring-4', 'ring-emerald-500/50', 'animate-pulse'), 1500);
                 }
-
                 updatePawnPositions();
                 updateScoreboards();
-
-                await showEventPopup(
-                    "Naik Tangga! 🪜",
-                    `🎉 Hebat! ${player.name} mendarat di tangga dan meluncur naik ke kotak ${targetSquare}!`,
-                    "🪜",
-                    false
-                );
+                await showEventPopup("Naik Tangga! 🪜", `🎉 Hebat! ${player.name} mendarat di tangga dan meluncur naik ke kotak ${targetSquare}!`, "🪜", false);
             } else if (SNAKES[currentSquare]) {
                 const targetSquare = SNAKES[currentSquare];
                 player.position = targetSquare;
-
-                // Snake bite flash red notification
                 const targetTile = document.getElementById(`tile-${targetSquare}`);
                 if (targetTile) {
                     targetTile.classList.add('ring-4', 'ring-rose-500/50', 'animate-pulse');
                     setTimeout(() => targetTile.classList.remove('ring-4', 'ring-rose-500/50', 'animate-pulse'), 1500);
                 }
-
                 updatePawnPositions();
                 updateScoreboards();
-
-                await showEventPopup(
-                    "Digigit Ular! 🐍",
-                    `😈 Ouch! ${player.name} tidak sengaja menginjak kepala ular dan harus meluncur turun ke kotak ${targetSquare}!`,
-                    "🐍",
-                    true
-                );
+                await showEventPopup("Digigit Ular! 🐍", `😈 Ouch! ${player.name} tidak sengaja menginjak kepala ular dan harus meluncur turun ke kotak ${targetSquare}!`, "🐍", true);
             }
 
-            // Verify if game finished
             if (player.position >= 100) {
                 player.position = 100;
                 isGameOver = true;
@@ -1433,10 +1272,8 @@ Sungai terpanjang di pulau Jawa adalah sungai?,Sungai Musi,Sungai Kapuas,Bengawa
             } else {
                 isMoving = false;
                 if (currentDiceRoll === 6) {
-                    // Bonus turn! Let the same active player roll again
                     updateActivePlayerVisuals();
-                    // Override the default waiting text to show bonus turn
-                    document.getElementById('diceRollValueText').textContent = `🎲 Dadu 6! ${player.name} mendapatkan bonus giliran tambahan!`;
+                    document.getElementById('diceRollValueText').textContent = `🎲 Dadu 6! ${player.name} dapat bonus giliran tambahan!`;
                 } else {
                     passTurnToNextPlayer();
                 }
@@ -1444,13 +1281,11 @@ Sungai terpanjang di pulau Jawa adalah sungai?,Sungai Musi,Sungai Kapuas,Bengawa
         }
 
         function updatePawnPositions() {
-            // Clear all containers
             for (let i = 1; i <= 100; i++) {
                 const container = document.getElementById(`pawn-container-${i}`);
                 if (container) container.innerHTML = '';
             }
             
-            // Render each player's pawn
             players.forEach((player, idx) => {
                 const container = document.getElementById(`pawn-container-${player.position}`);
                 if (container) {
@@ -1475,16 +1310,16 @@ Sungai terpanjang di pulau Jawa adalah sungai?,Sungai Musi,Sungai Kapuas,Bengawa
             });
         }
 
-        // Pass active player indices
         function passTurnToNextPlayer() {
             activePlayerIndex++;
             if (activePlayerIndex >= numPlayers) {
                 activePlayerIndex = 0;
-                roundCount++; // full turn circle completes
+                roundCount++;
             }
             updateActivePlayerVisuals();
         }
 
+        // FUNGSI INI DIUBAH: Langsung menampilkan soal di awal giliran
         function updateActivePlayerVisuals() {
             const activePlayer = players[activePlayerIndex];
             const nameEl = document.getElementById('currentPlayerName');
@@ -1492,16 +1327,13 @@ Sungai terpanjang di pulau Jawa adalah sungai?,Sungai Musi,Sungai Kapuas,Bengawa
             nameEl.style.color = activePlayer.color;
             
             document.getElementById('roundIndicator').textContent = `Putaran ${roundCount}`;
-            document.getElementById('diceRollValueText').textContent = `Giliran ${activePlayer.name}. Silakan kocok dadu!`;
+            document.getElementById('diceRollValueText').textContent = `Menunggu giliran...`;
             
             resetVisualDice();
-            updatePawnPositions(); // Update glows immediately on turn change
+            updatePawnPositions();
             
-            // Show dice controls, hide challenge
-            document.getElementById('interactionMain').classList.remove('hidden');
-            document.getElementById('interactionMain').classList.add('flex');
-            document.getElementById('interactionChallenge').classList.add('hidden');
-            document.getElementById('interactionChallenge').classList.remove('flex');
+            // Panggil soal secara langsung
+            presentTriviaChallenge();
         }
 
         function resetVisualDice() {
@@ -1516,17 +1348,13 @@ Sungai terpanjang di pulau Jawa adalah sungai?,Sungai Musi,Sungai Kapuas,Bengawa
             const scoreboard = document.getElementById('miniLeaderboard');
             if (!scoreboard) return;
             scoreboard.innerHTML = '';
-            
-            // Sort players by position descending
             const sorted = [...players].sort((a, b) => b.position - a.position);
             
             sorted.forEach((p, idx) => {
                 const card = document.createElement('div');
                 const isActive = (p.id === players[activePlayerIndex].id);
                 card.className = `p-2 rounded-xl border flex flex-col justify-between transition-all ${
-                    isActive 
-                    ? 'bg-slate-800 border-amber-500 shadow-md shadow-amber-500/20 scale-105' 
-                    : 'bg-slate-950/80 border-slate-800'
+                    isActive ? 'bg-slate-800 border-amber-500 shadow-md shadow-amber-500/20 scale-105' : 'bg-slate-950/80 border-slate-800'
                 }`;
                 card.innerHTML = `
                     <div class="flex items-center gap-1.5 overflow-hidden">
@@ -1544,8 +1372,7 @@ Sungai terpanjang di pulau Jawa adalah sungai?,Sungai Musi,Sungai Kapuas,Bengawa
 
         function getRandomQuestion() {
             if (!bankSoal || bankSoal.length === 0) return null;
-            const idx = Math.floor(Math.random() * bankSoal.length);
-            return bankSoal[idx];
+            return bankSoal[Math.floor(Math.random() * bankSoal.length)];
         }
 
         function shuffleArray(array) {
@@ -1556,63 +1383,15 @@ Sungai terpanjang di pulau Jawa adalah sungai?,Sungai Musi,Sungai Kapuas,Bengawa
             return array;
         }
 
-        // 3D Dice Roll Listener
-        const btnRollDice = document.getElementById('btnRollDice');
-        if (btnRollDice) {
-            btnRollDice.addEventListener('click', () => {
-                if (isDiceRolling || isMoving || isGameOver) return;
-                
-                isDiceRolling = true;
-                const dice = document.getElementById('visualDice');
-                dice.classList.add('rolling');
-                
-                // Roll a random number 1 to 6
-                currentDiceRoll = Math.floor(Math.random() * 6) + 1;
-                document.getElementById('diceRollValueText').textContent = "Mengocok dadu...";
-                
-                // Keep rolling animation for 1 second, then set final 3D angles
-                setTimeout(() => {
-                    dice.classList.remove('rolling');
-                    
-                    let rotX = 0, rotY = 0;
-                    switch (currentDiceRoll) {
-                        case 1: rotX = 0; rotY = 0; break;
-                        case 2: rotX = 0; rotY = -90; break;
-                        case 3: rotX = 0; rotY = -180; break;
-                        case 4: rotX = 0; rotY = 90; break;
-                        case 5: rotX = -90; rotY = 0; break;
-                        case 6: rotX = 90; rotY = 0; break;
-                    }
-                    
-                    dice.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
-                    document.getElementById('diceRollValueText').textContent = `Dadu menunjukkan angka: ${currentDiceRoll}!`;
-                    
-                    // Show trivia challenge after a short pause
-                    setTimeout(() => {
-                        presentTriviaChallenge();
-                    }, 800);
-                    
-                }, 1000);
-            });
-        }
-
-        // Trigger Victory Podium Layout
         function triggerVictoryScreen(winner) {
-            confetti({
-                particleCount: 150,
-                spread: 80,
-                origin: { y: 0.6 }
-            });
-
+            confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
             const winnerText = document.getElementById('winnerText');
             const resultCard = document.getElementById('resultCard');
-
             winnerText.textContent = `Selamat, ${winner.name}!`;
             winnerText.style.color = winner.color;
             resultCard.className = `z-10 bg-slate-900/80 backdrop-blur-md p-6 sm:p-8 rounded-3xl shadow-2xl border max-w-xl w-full text-center`;
             resultCard.style.borderColor = winner.color;
 
-            // Generate full ranking board list
             const finalStandingsContainer = document.getElementById('finalStandingsContainer');
             finalStandingsContainer.innerHTML = '';
 
@@ -1631,7 +1410,6 @@ Sungai terpanjang di pulau Jawa adalah sungai?,Sungai Musi,Sungai Kapuas,Bengawa
                 finalStandingsContainer.appendChild(item);
             });
 
-            // Reset AI commentator button state
             const commentaryBox = document.getElementById('aiCommentaryBox');
             if (commentaryBox) {
                 commentaryBox.classList.add('hidden');
@@ -1641,11 +1419,9 @@ Sungai terpanjang di pulau Jawa adalah sungai?,Sungai Musi,Sungai Kapuas,Bengawa
                 btnAI.innerHTML = `<i class="fa-solid fa-microphone"></i> Komentator AI (Gemini)`;
                 btnAI.className = "w-full bg-gradient-to-r from-amber-400 to-orange-500 hover:from-amber-500 hover:to-orange-600 text-slate-950 font-black py-2.5 px-4 rounded-xl shadow transition-transform transform active:scale-95 mb-3 text-xs sm:text-sm flex items-center justify-center gap-2";
             }
-
             switchScreen('result');
         }
 
-        // Return to Menu Event
         btnRestart.addEventListener('click', () => {
             switchScreen('setup');
             setupStatus.classList.add('hidden');
@@ -1668,35 +1444,19 @@ Sungai terpanjang di pulau Jawa adalah sungai?,Sungai Musi,Sungai Kapuas,Bengawa
             try {
                 const response = await fetch(GAS_WEB_APP_URL, {
                     method: 'POST',
-                    // Menggunakan text/plain untuk menghindari error CORS preflight di GitHub Pages
-                    headers: {
-                        'Content-Type': 'text/plain;charset=utf-8',
-                    },
-                    body: JSON.stringify({
-                        prompt: prompt,
-                        isJson: isJson
-                    })
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({ prompt: prompt, isJson: isJson })
                 });
-
                 const result = await response.json();
-
-                if (result.status === 'error') {
-                    throw new Error(result.message);
-                }
-
-                // Jika sukses, kembalikan data (jika JSON, parse stringnya)
-                if (isJson && typeof result.data === 'string') {
-                    return JSON.parse(result.data);
-                }
+                if (result.status === 'error') throw new Error(result.message);
+                if (isJson && typeof result.data === 'string') return JSON.parse(result.data);
                 return result.data;
-
             } catch (error) {
                 console.error("Fetch Error:", error);
                 throw new Error("Gagal terhubung ke server AI. Pastikan URL Web App sudah benar dan di-deploy sebagai 'Anyone'.");
             }
         }
 
-        // AI Trivia Generator Trigger
         const btnGenerateAI = document.getElementById('btnGenerateAI');
         const aiTopicInput = document.getElementById('aiTopic');
         const aiTingkatInput = document.getElementById('aiTingkat');
@@ -1709,10 +1469,7 @@ Sungai terpanjang di pulau Jawa adalah sungai?,Sungai Musi,Sungai Kapuas,Bengawa
                 const tingkat = aiTingkatInput.value;
                 const jumlah = aiJumlahInput.value || 10;
 
-                if (!topic) {
-                    alert("Ketikkan topik materi terlebih dahulu!");
-                    return;
-                }
+                if (!topic) { alert("Ketikkan topik materi terlebih dahulu!"); return; }
 
                 btnGenerateAI.disabled = true;
                 btnGenerateAI.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> Meracik soal...`;
@@ -1730,21 +1487,16 @@ Sungai terpanjang di pulau Jawa adalah sungai?,Sungai Musi,Sungai Kapuas,Bengawa
                         aiStatusText.classList.remove('text-purple-400');
                         aiStatusText.classList.add('text-emerald-400');
                         btnGenerateAI.innerHTML = `✨ Racik Ulang`;
-                    } else {
-                        throw new Error("Gagal mengurai respons.");
-                    }
+                    } else { throw new Error("Gagal mengurai respons."); }
                 } catch (error) {
                     aiStatusText.innerHTML = `❌ Error: ${error.message}`;
                     aiStatusText.classList.remove('text-purple-400');
                     aiStatusText.classList.add('text-red-400');
                     btnGenerateAI.innerHTML = `✨ Coba Lagi`;
-                } finally {
-                    btnGenerateAI.disabled = false;
-                }
+                } finally { btnGenerateAI.disabled = false; }
             });
         }
 
-        // AI Match Commentary Trigger
         const btnAICommentary = document.getElementById('btnAICommentary');
         const aiCommentaryBox = document.getElementById('aiCommentaryBox');
 
@@ -1752,7 +1504,6 @@ Sungai terpanjang di pulau Jawa adalah sungai?,Sungai Musi,Sungai Kapuas,Bengawa
             btnAICommentary.addEventListener('click', async () => {
                 btnAICommentary.disabled = true;
                 btnAICommentary.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> Memanggil Bung AI...`;
-                
                 aiCommentaryBox.classList.remove('hidden');
                 aiCommentaryBox.innerHTML = `<span class="animate-pulse"><i class="fa-solid fa-microphone"></i> Bung AI sedang merangkum hasil pertandingan sengit Anda...</span>`;
 
