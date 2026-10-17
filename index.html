@@ -203,9 +203,9 @@
 
     <div class="game-container" id="appContainer">
         
-        <button id="btnFullscreen" class="absolute top-4 right-4 bg-slate-800/80 backdrop-blur hover:bg-slate-700 text-white p-2.5 rounded-xl shadow-lg transition-all z-[100] flex items-center gap-2 border border-slate-700/60" title="Layar Penuh">
+        <!-- Tombol Fullscreen diubah menjadi ikon bulat saja -->
+        <button id="btnFullscreen" class="absolute top-4 right-4 bg-slate-800/80 backdrop-blur hover:bg-slate-700 text-white w-10 h-10 rounded-full shadow-lg transition-all z-[100] flex items-center justify-center border border-slate-700/60" title="Layar Penuh">
             <i class="fa-solid fa-expand text-sm sm:text-base"></i>
-            <span class="font-bold hidden sm:block text-xs sm:text-sm">Layar Penuh</span>
         </button>
 
         <!-- SCREEN 1: SETUP SCREEN -->
@@ -641,9 +641,6 @@ Suku bangsa yang terkenal dengan rumah adat Gadang adalah suku?,Jawa,Sunda,Minan
 Sungai terpanjang di pulau Jawa adalah sungai?,Sungai Musi,Sungai Kapuas,Bengawan Solo,Sungai Brantas,Bengawan Solo`
         };
 
-        // PERUBAHAN DATA TANGGA SESUAI PERMINTAAN
-        // Tangga 80 ke 100 dihilangkan
-        // Tangga 75 ke 86 diubah menjadi 75 ke 96
         const LADDERS = { 3: 21, 8: 30, 28: 84, 58: 77, 75: 96 };
         const SNAKES = { 17: 13, 52: 29, 57: 40, 62: 22, 88: 18, 95: 51, 97: 79 };
 
@@ -974,13 +971,8 @@ Sungai terpanjang di pulau Jawa adalah sungai?,Sungai Musi,Sungai Kapuas,Bengawa
             updateScoreboards();
             switchScreen('arena');
 
-            // Render grid secara sinkron
             buildDynamicBoardGrid();
-
-            // Beri jeda sedikit agar browser telah menggambar kotak (DOM) sebelum SVG digambar
-            setTimeout(() => {
-                drawBoardPaths();
-            }, 100);
+            drawBoardPaths();
 
             const sourceType = document.querySelector('input[name="sourceType"]:checked').value;
             let currentTopic = "Bawaan";
@@ -997,10 +989,9 @@ Sungai terpanjang di pulau Jawa adalah sungai?,Sungai Musi,Sungai Kapuas,Bengawa
 
             setTimeout(() => {
                 updateActivePlayerVisuals();
-            }, 200);
+            }, 100);
         }
 
-        // Resize listener agar garis tetap presisi saat ukuran layar berubah
         window.addEventListener('resize', () => {
             if (!document.getElementById('screen-arena').classList.contains('hidden')) {
                 drawBoardPaths();
@@ -1140,7 +1131,6 @@ Sungai terpanjang di pulau Jawa adalah sungai?,Sungai Musi,Sungai Kapuas,Bengawa
             }, 1000);
         }
 
-        // Logika Bounce Back (Dadu Pas)
         function animatePawnSteps(player, steps) {
             isMoving = true;
             
