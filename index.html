@@ -6,9 +6,7 @@
     <title>Ular Tangga Edu</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
-    <!-- FontAwesome for game icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Canvas Confetti for Victory celebration -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     
     <style>
@@ -375,6 +373,7 @@
                 <div class="relative w-full aspect-square bg-slate-900/80 rounded-2xl border border-slate-700/50 shadow-2xl overflow-hidden" id="boardWrapper">
                     <div id="boardTilesGrid" class="absolute inset-0 grid grid-cols-10 grid-rows-10 w-full h-full p-1 sm:p-1.5 gap-0.5 sm:gap-1"></div>
 
+                    <!-- viewBox 0 0 1000 1000, preserveAspectRatio="none" memastikan SVG menempel sempurna pada grid -->
                     <svg id="svgOverlay" class="absolute inset-0 w-full h-full pointer-events-none z-20" viewBox="0 0 1000 1000" preserveAspectRatio="none">
                         <defs>
                             <linearGradient id="gradLadder" x1="0%" y1="0%" x2="0%" y2="100%">
@@ -863,7 +862,7 @@ Sungai terpanjang di pulau Jawa adalah sungai?,Sungai Musi,Sungai Kapuas,Bengawa
             }
         }
 
-        // Gunakan Rumus Matematika Murni agar 100% presisi dan tidak error saat ukuran kotak 0
+        // Perhitungan Matematika Murni (100% Akurat)
         function getTileCoordinates(tileNum) {
             const rowIdx = Math.floor((tileNum - 1) / 10);
             let colIdx;
@@ -893,8 +892,8 @@ Sungai terpanjang di pulau Jawa adalah sungai?,Sungai Musi,Sungai Kapuas,Bengawa
                 const length = Math.sqrt(dx*dx + dy*dy);
                 const angle = Math.atan2(dy, dx);
                 
-                // Offset 12px (dalam skala 1000) agar garis tidak menembus batas kotak
-                const railOffset = 12; 
+                // Offset 10px (diperkecil dari 12px) agar garis aman di dalam kotak
+                const railOffset = 10; 
                 const r1x = p1.x - railOffset * Math.sin(angle); const r1y = p1.y + railOffset * Math.cos(angle);
                 const r2x = p2.x - railOffset * Math.sin(angle); const r2y = p2.y + railOffset * Math.cos(angle);
                 const l1x = p1.x + railOffset * Math.sin(angle); const l1y = p1.y - railOffset * Math.cos(angle);
@@ -977,13 +976,11 @@ Sungai terpanjang di pulau Jawa adalah sungai?,Sungai Musi,Sungai Kapuas,Bengawa
             updateScoreboards();
             switchScreen('arena');
 
-            // Render grid synchronously
-            buildDynamicBoardGrid();
-
-            // Gambar garis menggunakan RequestAnimationFrame agar browser sudah selesai menghitung tata letak
-            requestAnimationFrame(() => {
+            // Tunggu sebentar agar DOM benar-benar siap sebelum menggambar grid dan garis
+            setTimeout(() => {
+                buildDynamicBoardGrid();
                 drawBoardPaths();
-            });
+            }, 50);
 
             const sourceType = document.querySelector('input[name="sourceType"]:checked').value;
             let currentTopic = "Bawaan";
@@ -1001,7 +998,7 @@ Sungai terpanjang di pulau Jawa adalah sungai?,Sungai Musi,Sungai Kapuas,Bengawa
             // Panggil soal pertama dengan delay tipis
             setTimeout(() => {
                 updateActivePlayerVisuals();
-            }, 100);
+            }, 150);
         }
 
         // Resize listener agar garis tetap presisi saat ukuran layar berubah
@@ -1152,7 +1149,6 @@ Sungai terpanjang di pulau Jawa adalah sungai?,Sungai Musi,Sungai Kapuas,Bengawa
             let direction = 1;
             let sequence = [];
 
-            // Buat urutan langkah (termasuk jika memantul dari 100)
             for (let i = 0; i < steps; i++) {
                 if (currentPos === 100) {
                     direction = -1; 
@@ -1177,7 +1173,6 @@ Sungai terpanjang di pulau Jawa adalah sungai?,Sungai Musi,Sungai Kapuas,Bengawa
                         setTimeout(() => { activeTile.classList.remove('scale-105', 'bg-slate-700/60'); }, 250);
                     }
 
-                    // Beri jeda lebih lama jika memantul dari kotak 100
                     let delay = 350;
                     if (player.position === 100 && direction === -1 && stepIndex < sequence.length) {
                         delay = 600;
@@ -1255,7 +1250,6 @@ Sungai terpanjang di pulau Jawa adalah sungai?,Sungai Musi,Sungai Kapuas,Bengawa
                 await showEventPopup("Digigit Ular! 🐍", `😈 Ouch! ${player.name} tidak sengaja menginjak kepala ular dan harus meluncur turun ke kotak ${targetSquare}!`, "🐍", true);
             }
 
-            // Menang HANYA jika PERSIS berada di kotak 100
             if (player.position === 100) {
                 isGameOver = true;
                 setTimeout(() => triggerVictoryScreen(player), 600);
